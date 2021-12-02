@@ -41,14 +41,14 @@ spec:
           env:
             - name: CODE_SERVER_CONFIG
               value: /code-server/config/config.yaml
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
           volumeMounts:
           - name: config-volume
             mountPath: /code-server/config
