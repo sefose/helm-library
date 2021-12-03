@@ -45,7 +45,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: code.k8s.lan
+    - host: your.host
       paths:
         - path: /
           pathType: Prefix

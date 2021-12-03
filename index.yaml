@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  fullstack-container:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2021-12-03T17:52:25.559247+01:00"
+    description: A Helm chart for Kubernetes
+    digest: 584ee8837dedef0f997ce5296970ea82df2b7d025cc15241b66aa21be96e92ec
+    name: fullstack-container
+    type: application
+    urls:
+    - https://sefose.github.io/helm-library/fullstack-container/fullstack-container-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-12-03T17:52:25.558681+01:00"
