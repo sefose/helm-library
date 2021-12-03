@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+password: pw
+
 image:
   repository: sefose/full-stack-container
   pullPolicy: IfNotPresent

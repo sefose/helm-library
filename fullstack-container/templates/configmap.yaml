@@ -5,6 +5,6 @@ metadata:
 data: 
     config.yaml: |
         bind-addr: 0.0.0.0:80
-        auth: password
+        auth: {{ .Values.password }}
         password: pw
         cert: false
