@@ -30,6 +30,16 @@ spec:
       {{- if .Values.runtimeClassName }}
       runtimeClassName: {{ .Values.runtimeClassName }}
       {{- end }}
+      initContainers:
+        - name: set-code-server-config-ownership
+          command:
+            - chown
+            - 1000:1000
+            - /home/coder/.config/code-server/config.yaml
+          volumeMounts:
+          - name: config-volume
+            mountPath: /home/coder/.config/code-server/config.yaml
+            subPath: config.yaml
       containers:
         - name: {{ .Chart.Name }}
           #command: ["/sbin/init"]
