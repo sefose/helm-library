@@ -5,4 +5,4 @@ metadata:
 data: 
     code-server.conf: |
         [Service]
-        ExecStart=/usr/bin/code-server --config /home/coder/code-server/config.yaml
+        ExecStart=/usr/bin/code-server --config /code-server/data/config/config.yaml
