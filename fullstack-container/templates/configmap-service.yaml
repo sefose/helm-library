@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fullstack-container.fullname" . }}-service
+data: 
+    code-server.service: |
+        [Unit]
+        Description=code-server
+        After=network.target
+
+        [Service]
+        Type=exec
+        ExecStart=/usr/bin/code-server
+        Restart=always
+        User=%i
+
+        [Install]
+        WantedBy=default.target

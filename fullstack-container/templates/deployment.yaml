@@ -54,13 +54,20 @@ spec:
           #     port: http
           volumeMounts:
           - name: config-volume
-            mountPath: /code-server/config
+            mountPath: /code-server/config/config.yaml
+            subPath: config.yaml
+          - name: service-volume
+            mountPath: /lib/systemd/system/code-server.service
+            subPath: code-server.service
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: config-volume
           configMap:
             name: {{ include "fullstack-container.fullname" . }}-config
+        - name: service-volume
+          configMap:
+            name: {{ include "fullstack-container.fullname" . }}-service
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
