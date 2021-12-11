@@ -3,12 +3,12 @@ entries:
   fullstack-container:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2021-12-11T18:04:19.775001+01:00"
+    created: "2021-12-11T18:08:02.310046+01:00"
     description: full-stack development - in a container
-    digest: 6ef6cd0b823f261e90696be3c433221da41ff19d7911c751f203a08cdc12a1fa
+    digest: cf8b27546991e3dfb9b4877723a96b546eea9fb4f025befb47601d59e72e753e
     name: fullstack-container
     type: application
     urls:
     - https://sefose.github.io/helm-library/fullstack-container-0.0.1.tgz
     version: 0.0.1
-generated: "2021-12-11T18:04:19.77375+01:00"
+generated: "2021-12-11T18:08:02.308762+01:00"
