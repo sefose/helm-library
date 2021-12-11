@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "fullstack-container.fullname" . }}-service
 data: 
-    code-server@root.conf: |
+    code-server.conf: |
         [Unit]
         Description=code-server
         After=network.target
