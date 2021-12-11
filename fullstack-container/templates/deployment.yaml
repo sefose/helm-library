@@ -74,7 +74,7 @@ spec:
       volumes:
         - name: pvc
           persistentVolumeClaim:
-            name: {{ include "fullstack-container.fullname" . }}
+            claimName: {{ include "fullstack-container.fullname" . }}
         - name: config-volume
           configMap:
             name: {{ include "fullstack-container.fullname" . }}-config
