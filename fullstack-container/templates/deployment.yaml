@@ -54,7 +54,7 @@ spec:
           #     port: http
           volumeMounts:
           - name: config-volume
-            mountPath: /code-server/config/config.yaml
+            mountPath: /home/coder/.configcode-server/config.yaml
             subPath: config.yaml
           # - name: service-volume
           #   mountPath: /lib/systemd/system/code-server.service.d/code-server@root.conf
