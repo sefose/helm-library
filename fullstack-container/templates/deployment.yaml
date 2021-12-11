@@ -34,7 +34,7 @@ spec:
         - name: set-code-server-config-ownership
           image: alpine
           command: ["/bin/sh","-c"]
-          args: ["mkdir /home/coder/.config/code-server && cp /tmp/config.yaml /home/coder/.config/code-server/config.yaml && chown -R 1000:1000 /home/coder/.config"]
+          args: ["rsync -a /tmp/config.yaml /home/coder/.config/code-server/config.yaml && chown -R 1000:1000 /home/coder/.config"]
           volumeMounts:
           - name: config-volume
             mountPath: /tmp/config.yaml
