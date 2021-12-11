@@ -33,13 +33,11 @@ spec:
       initContainers:
         - name: set-code-server-config-ownership
           image: alpine
-          command:
-            - chown
-            - 1000:1000
-            - /home/coder/.config/code-server/config.yaml
+          command: ["/bin/sh","-c"]
+          args: ["cp /tmp/config.yaml /home/coder/.config/code-server/config.yaml && chown 1000:1000 /home/coder/.config/code-server/config.yaml"]
           volumeMounts:
           - name: config-volume
-            mountPath: /home/coder/.config/code-server/config.yaml
+            mountPath: /tmp/config.yaml
             subPath: config.yaml
       containers:
         - name: {{ .Chart.Name }}
@@ -67,9 +65,9 @@ spec:
           - name: config-volume
             mountPath: /home/coder/.config/code-server/config.yaml
             subPath: config.yaml
-          - name: service-volume
-            mountPath: /lib/systemd/system/code-server.service.d/code-server@coder.conf
-            subPath: code-server.conf
+          # - name: service-volume
+          #   mountPath: /lib/systemd/system/code-server.service.d/code-server@coder.conf
+          #   subPath: code-server.conf
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
