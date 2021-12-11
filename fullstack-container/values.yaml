@@ -7,7 +7,7 @@ replicaCount: 1
 password: pw
 
 image:
-  repository: sefose/full-stack-container
+  repository: sefose/fullstack-container
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -25,7 +25,10 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podAnnotations: {}
+runtimeClassName: sysbox-runc
+
+podAnnotations:
+  io.kubernetes.cri-o.userns-mode: "auto:size=65536"
 
 podSecurityContext: {}
   # fsGroup: 2000

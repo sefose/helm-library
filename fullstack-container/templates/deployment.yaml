@@ -27,9 +27,12 @@ spec:
       serviceAccountName: {{ include "fullstack-container.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.runtimeClassName }}
+      runtimeClassName: {{ .Values.runtimeClassName }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          command: ["code-server",""]
+          #command: ["/sbin/init"]
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -57,7 +60,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ include "fullstack-container.fullname" . }}
+            name: {{ include "fullstack-container.fullname" . }}-config
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
