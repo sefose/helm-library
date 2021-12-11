@@ -56,9 +56,9 @@ spec:
           - name: config-volume
             mountPath: /code-server/config/config.yaml
             subPath: config.yaml
-          - name: service-volume
-            mountPath: /lib/systemd/system/code-server.service.d/code-server.conf
-            subPath: code-server.conf
+          # - name: service-volume
+          #   mountPath: /lib/systemd/system/code-server.service.d/code-server@root.conf
+          #   subPath: code-server@root.conf
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
