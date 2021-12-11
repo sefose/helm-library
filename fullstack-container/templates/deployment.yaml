@@ -32,6 +32,7 @@ spec:
       {{- end }}
       initContainers:
         - name: set-code-server-config-ownership
+          image: alpine
           command:
             - chown
             - 1000:1000
