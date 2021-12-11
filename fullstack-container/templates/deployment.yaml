@@ -34,7 +34,7 @@ spec:
         - name: set-code-server-config-ownership
           image: alpine
           command: ["/bin/sh","-c"]
-          args: ["mkdir -p /home/coder/.config/code-server && cp /tmp/config.yaml /home/coder/.config/code-server/config.yaml && chown -R 1000:1000 /home/coder/.config"]
+          args: ["mkdir /home/coder/code-server && cp /tmp/config.yaml /home/coder/code-server/config.yaml && chown -R 1000:1000 /home/coder/.config/code-server"]
           volumeMounts:
           - name: config-volume
             mountPath: /tmp/config.yaml
@@ -62,12 +62,12 @@ spec:
           #     path: /healthz
           #     port: http
           volumeMounts:
-          - name: config-volume
-            mountPath: /home/coder/.config/code-server/config.yaml
-            subPath: config.yaml
-          # - name: service-volume
-          #   mountPath: /lib/systemd/system/code-server.service.d/code-server@coder.conf
-          #   subPath: code-server.conf
+          # - name: config-volume
+          #   mountPath: /home/coder/.config/code-server/config.yaml
+          #   subPath: config.yaml
+          - name: service-volume
+            mountPath: /lib/systemd/system/code-server.service.d/code-server@coder.conf
+            subPath: code-server.conf
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
