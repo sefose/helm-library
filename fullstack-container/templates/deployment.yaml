@@ -34,7 +34,7 @@ spec:
         - name: set-code-server-config-ownership
           image: alpine
           command: ["/bin/sh","-c"]
-          args: ["mkdir /home/coder/code-server && cp /tmp/config.yaml /home/coder/code-server/config.yaml && chown -R 1000:1000 /home/coder/.config/code-server"]
+          args: ["mkdir -p /home/coder/code-server && cp /tmp/config.yaml /home/coder/code-server/config.yaml && chown -R 1000:1000 /home/coder/.config/code-server"]
           volumeMounts:
           - name: config-volume
             mountPath: /tmp/config.yaml
@@ -51,8 +51,8 @@ spec:
               containerPort: 80
               protocol: TCP
           env:
-            - name: CODE_SERVER_CONFIG
-              value: /code-server/config/config.yaml
+            # - name: CODE_SERVER_CONFIG
+            #   value: /home/coder/code-server/config.yaml
           # livenessProbe:
           #   httpGet:
           #     path: /healthz
