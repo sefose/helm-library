@@ -34,12 +34,12 @@ spec:
         - name: set-code-server-config-ownership
           image: alpine
           command: ["/bin/sh","-c"]
-          args: ["mkdir -p /code-server/data/config && cp /tmp/config.yaml /code-server/data/config/config.yaml && chown 1000:1000 /code-server/data"]
+          args: ["echo 'config.yaml:' && cat /config.yaml && mkdir -p /code-server/data/config && cp /config.yaml /code-server/data/config/config.yaml && chown 1000:1000 /code-server/data"]
           volumeMounts:
           - name: pvc
             mountPath: "/code-server"
           - name: config-volume
-            mountPath: /tmp/config.yaml
+            mountPath: /config.yaml
             subPath: config.yaml
       containers:
         - name: {{ .Chart.Name }}
@@ -77,7 +77,7 @@ spec:
             claimName: {{ include "fullstack-container.fullname" . }}
         - name: config-volume
           configMap:
-            name: {{ include "fullstack-container.fullname" . }}-config
+            name: code-server-config
         - name: service-volume
           configMap:
             name: {{ include "fullstack-container.fullname" . }}-service
