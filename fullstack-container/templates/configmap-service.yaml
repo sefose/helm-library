@@ -4,5 +4,6 @@ metadata:
   name: {{ include "fullstack-container.fullname" . }}-service
 data: 
     code-server.conf: |
-        [Service]
-        ExecStart=/usr/bin/code-server --config /code-server/data/config/config.yaml
+      [Service]
+      ExecStart=
+      ExecStart=/usr/bin/code-server --config /code-server/data/config/config.yaml --user-data-dir /code-server/data

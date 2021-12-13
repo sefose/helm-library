@@ -4,7 +4,8 @@ metadata:
   name: code-server-config
 data: 
     config.yaml: |
-      bind-addr: 0.0.0.0:80
-      auth: {{ .Values.password }}
-      password: pw
+      bind-addr: 0.0.0.0:1080
+      auth: password
+      password: {{ .Values.password }}
       cert: false
+      user-data-dir: /code-server/data

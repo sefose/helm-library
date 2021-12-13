@@ -31,7 +31,7 @@ spec:
       runtimeClassName: {{ .Values.runtimeClassName }}
       {{- end }}
       initContainers:
-        - name: set-code-server-config-ownership
+        - name: change-coder-data-ownership
           image: alpine
           command: ["/bin/sh","-c"]
           args: ["echo 'config.yaml:' && cat /config.yaml && mkdir -p /code-server/data/config && cp /config.yaml /code-server/data/config/config.yaml && chown 1000:1000 /code-server/data"]
@@ -67,7 +67,7 @@ spec:
           - name: pvc
             mountPath: "/code-server"
           - name: service-volume
-            mountPath: /etc/systemd/system/code-server.service@coder.d/start.conf
+            mountPath: /etc/systemd/system/code-server@coder.service.d/start.conf
             subPath: code-server.conf
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
