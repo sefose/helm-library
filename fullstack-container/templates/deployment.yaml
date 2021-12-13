@@ -34,13 +34,16 @@ spec:
         - name: change-coder-data-ownership
           image: alpine
           command: ["/bin/sh","-c"]
-          args: ["echo 'config.yaml:' && cat /config.yaml && mkdir -p /code-server/data/config && cp /config.yaml /code-server/data/config/config.yaml && chown 1000:1000 /code-server/data"]
+          args: ["mkdir -p /code-server/data/config && cp /config.yaml /code-server/data/config/config.yaml && mkdir -p /code-server/data/User && cp /settings.json /code-server/data/User/ && chown 1000:1000 /code-server/data"]
           volumeMounts:
           - name: pvc
             mountPath: "/code-server"
           - name: config-volume
             mountPath: /config.yaml
             subPath: config.yaml
+          - name: settings-volume
+            mountPath: /settings.json
+            subPath: settings.json
       containers:
         - name: {{ .Chart.Name }}
           #command: ["/sbin/init"]
@@ -53,8 +56,6 @@ spec:
               containerPort: 80
               protocol: TCP
           env:
-            # - name: CODE_SERVER_CONFIG
-            #   value: /home/coder/code-server/config.yaml
           # livenessProbe:
           #   httpGet:
           #     path: /healthz
@@ -77,7 +78,10 @@ spec:
             claimName: {{ include "fullstack-container.fullname" . }}
         - name: config-volume
           configMap:
-            name: code-server-config
+            name: {{ include "fullstack-container.fullname" . }}-config
+        - name: settings-volume
+          configMap:
+            name: {{ include "fullstack-container.fullname" . }}-settings
         - name: service-volume
           configMap:
             name: {{ include "fullstack-container.fullname" . }}-service

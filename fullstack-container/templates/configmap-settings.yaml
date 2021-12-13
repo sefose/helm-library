@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "fullstack-container.fullname" . }}-settings
 data: 
-    config.yaml: |
+    settings.json: |
         {
           "terminal.integrated.gpuAcceleration": "canvas",
         }

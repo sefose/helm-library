@@ -1,11 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: code-server-config
+  name: {{ include "fullstack-container.fullname" . }}-config
 data: 
     config.yaml: |
       bind-addr: 0.0.0.0:1080
       auth: password
       password: {{ .Values.password }}
       cert: false
-      user-data-dir: /code-server/data
