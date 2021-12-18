@@ -17,6 +17,16 @@ nameOverride: ""
 fullnameOverride: ""
 storageClass: longhorn
 
+# get extension id by clicking the gear and "copy extension id" while browsing extensions in vscode 
+extensions:
+  - redhat.java
+  - eamodio.gitlens
+  - esbenp.prettier-vscode
+  - pkief.material-icon-theme
+  - redhat.vscode-yaml
+  - chrisdias.vscode-opennewinstance
+  - tim-koehler.helm-intellisense
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

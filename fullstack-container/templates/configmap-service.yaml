@@ -1,9 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "fullstack-container.fullname" . }}-service
+  name: {{ include "fullstack-container.fullname" . }}-service 
 data: 
     code-server.conf: |
       [Service]
       ExecStart=
-      ExecStart=/usr/bin/code-server --config /code-server/data/config/config.yaml --user-data-dir /code-server/data /code-server/data
+      ExecStart=/usr/bin/code-server \
+        --config /code-server/data/config/config.yaml \
+        --user-data-dir /code-server/data \
+        {{- template "fullstack-container.addExtensions" . }}
+        /code-server/data
