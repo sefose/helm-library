@@ -20,6 +20,7 @@ spec:
       labels:
         {{- include "fullstack-container.selectorLabels" . | nindent 8 }}
     spec:
+      hostname: fullstack
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -44,6 +45,16 @@ spec:
           - name: settings-volume
             mountPath: /settings.json
             subPath: settings.json
+        {{- if .Values.extensions }}
+        # TODO unpack extensions with smaller image 
+        - name: install-extensions
+          image: sefose/code-server
+          command: ["/bin/sh","-c"]
+          args: ["code-server  {{ include "fullstack-container.addExtensions" .  }} --user-data-dir /code-server/data --config /code-server/data/config/config.yaml  /code-server/data" ]
+          volumeMounts:
+          - name: pvc
+            mountPath: "/code-server"
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           #command: ["/sbin/init"]

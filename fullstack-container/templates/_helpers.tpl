@@ -64,9 +64,9 @@ Create the name of the service account to use
 {{- define "fullstack-container.addExtensions" -}}
 {{- if .Values.extensions }}
 {{- range .Values.extensions }}
-{{ print "--install-extension " . " \\" | indent 8 -}}
+{{- print "--install-extension " . " " -}}
 {{- end -}}
 {{- else }}
-{{- "test" }}
+{{- "" }}
 {{- end }}
 {{- end }}

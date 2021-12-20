@@ -9,5 +9,4 @@ data:
       ExecStart=/usr/bin/code-server \
         --config /code-server/data/config/config.yaml \
         --user-data-dir /code-server/data \
-        {{- template "fullstack-container.addExtensions" . }}
         /code-server/data

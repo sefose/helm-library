@@ -25,7 +25,6 @@ extensions:
   - pkief.material-icon-theme
   - redhat.vscode-yaml
   - chrisdias.vscode-opennewinstance
-  - tim-koehler.helm-intellisense
 
 serviceAccount:
   # Specifies whether a service account should be created
