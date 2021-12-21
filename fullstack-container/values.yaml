@@ -12,6 +12,13 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+dockerDaemon:
+  image:
+    repository: docker
+    tag: 20.10.12-dind
+  securityContext: 
+    privileged: true
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -45,8 +52,7 @@ podSecurityContext: {}
   # runAsUser: 1000
   # runAsGroup: 1000
 
-securityContext: 
-  privileged: true
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL

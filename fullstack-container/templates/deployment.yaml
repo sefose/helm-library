@@ -67,6 +67,8 @@ spec:
               containerPort: 80
               protocol: TCP
           env:
+            - name: DOCKER_HOST 
+              value: tcp://localhost:2375 
           # livenessProbe:
           #   httpGet:
           #     path: /healthz
@@ -81,9 +83,30 @@ spec:
           - name: service-volume
             mountPath: /etc/systemd/system/code-server@coder.service.d/start.conf
             subPath: code-server.conf
+          - name: certs-client
+            mountPath: /certs/client
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - name: docker-daemon
+          image: "{{ .Values.dockerDaemon.image.repository }}:{{ .Values.dockerDaemon.image.tag }}"
+          securityContext:
+            {{- toYaml .Values.dockerDaemon.securityContext | nindent 12 }}
+          volumeMounts:
+          - name: certs-ca
+            mountPath: /certs/ca
+          - name: certs-ca
+            mountPath: /certs/client
+          - name: docker-graph-storage
+            mountPath: /var/lib/docker
+          - name: pvc
+            mountPath: "/code-server"
       volumes:
+        - name: certs-ca
+          emptyDir: {}
+        - name: certs-client
+          emptyDir: {}
+        - name: docker-graph-storage 
+          emptyDir: {}
         - name: pvc
           persistentVolumeClaim:
             claimName: {{ include "fullstack-container.fullname" . }}
