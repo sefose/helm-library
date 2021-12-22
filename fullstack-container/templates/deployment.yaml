@@ -57,7 +57,12 @@ spec:
         {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          #command: ["/sbin/init"]
+          args: 
+            - "--config"
+            - "/code-server/data/config/config.yaml"
+            - "--user-data-dir"
+            - "/code-server/data"
+            - "/code-server/data"
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
