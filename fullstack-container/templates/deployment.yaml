@@ -48,7 +48,7 @@ spec:
           args: ["code-server {{ include "fullstack-container.addExtensions" .  }}"]
           volumeMounts:
           - name: pvc
-            mountPath: "/coder-home"
+            mountPath: "/home/coder"
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
