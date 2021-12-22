@@ -45,25 +45,21 @@ spec:
           - name: settings-volume
             mountPath: /settings.json
             subPath: settings.json
-        {{- if .Values.extensions }}
-        # TODO unpack extensions with smaller image 
-        - name: install-extensions
-          image: sefose/code-server
-          command: ["/bin/sh","-c"]
-          args: ["code-server  {{ include "fullstack-container.addExtensions" .  }} --user-data-dir /code-server/data --config /code-server/data/config/config.yaml  /code-server/data" ]
-          volumeMounts:
-          - name: pvc
-            mountPath: "/code-server"
-        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          args: 
-            - "{{ include "fullstack-container.addExtensions" .  }}"
-            - "--config"
-            - "/code-server/data/config/config.yaml"
-            - "--user-data-dir"
-            - "/code-server/data"
-            - "/code-server/data"
+          command: ["/bin/sh","-c"]
+          args: [
+              "{{- if .Values.extensions }}
+              code-server 
+              {{ include "fullstack-container.addExtensions" .  }} 
+              --user-data-dir /code-server/data 
+              --config /code-server/data/config/config.yaml  
+              /code-server/data && 
+              {{- end }}
+              code-server --user-data-dir /code-server/data
+              --config /code-server/data/config/config.yaml  
+              /code-server/data" 
+              ]
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
