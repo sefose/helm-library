@@ -15,7 +15,7 @@ image:
 dockerDaemon:
   image:
     repository: docker
-    tag: 20.10.12-dind
+    tag: 20.10.12-dind-rootless
   securityContext: 
     privileged: true
 
@@ -47,10 +47,10 @@ serviceAccount:
 # podAnnotations:
 #   io.kubernetes.cri-o.userns-mode: "auto:size=65536"
 
-podSecurityContext: {}
-  # fsGroup: 1000
-  # runAsUser: 1000
-  # runAsGroup: 1000
+podSecurityContext:
+  fsGroup: 1000
+  runAsUser: 1000
+  runAsGroup: 1000
 
 securityContext: {}
   # capabilities:

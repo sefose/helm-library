@@ -58,6 +58,7 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           args: 
+            - "{{ include "fullstack-container.addExtensions" .  }}"
             - "--config"
             - "/code-server/data/config/config.yaml"
             - "--user-data-dir"
@@ -85,9 +86,6 @@ spec:
           volumeMounts:
           - name: pvc
             mountPath: "/code-server"
-          - name: service-volume
-            mountPath: /etc/systemd/system/code-server@coder.service.d/start.conf
-            subPath: code-server.conf
           - name: certs-client
             mountPath: /certs/client
           resources:
@@ -121,9 +119,6 @@ spec:
         - name: settings-volume
           configMap:
             name: {{ include "fullstack-container.fullname" . }}-settings
-        - name: service-volume
-          configMap:
-            name: {{ include "fullstack-container.fullname" . }}-service
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
