@@ -37,15 +37,27 @@ spec:
           securityContext:
             runAsUser: 0
           command: ["/bin/sh","-c"]
-          args: ["cp -r /home/coder/. /coder-home/ && chown 1000:1000  /coder-home"]
+          args: ["
+              mkdir -p /home/coder/.config/code-server && 
+              cp -r /config.yaml /home/coder/.config/code-server/config.yaml &&
+              mkdir -p /home/coder/.local/share/code-server/User && 
+              cp -r /settings.json /home/coder/.local/share/code-server/User/settings.json &&
+              cp -r /home/coder/. /coder-home/ && 
+              chown 1000:1000  /coder-home"]
           volumeMounts:
           - name: pvc
             mountPath: "/coder-home"
+          - name: config-volume
+            mountPath: /config.yaml
+            subPath: config.yaml
+          - name: settings-volume
+            mountPath: /settings.json
+            subPath: settings.json
         - name: install-extensions
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           securityContext:
           command: ["/bin/sh","-c"]
-          args: ["code-server {{ include "fullstack-container.addExtensions" .  }}"]
+          args: ["code-server {{ include "fullstack-container.addExtensions" .  }}" ]
           volumeMounts:
           - name: pvc
             mountPath: "/home/coder"
@@ -73,12 +85,6 @@ spec:
           volumeMounts:
           - name: pvc
             mountPath: "/home/coder"
-          - name: config-volume
-            mountPath: /home/coder/.config/code-server/config.yaml
-            subPath: config.yaml
-          - name: settings-volume
-            mountPath: /home/coder/.local/share/code-server/User/settings.json
-            subPath: settings.json
           - name: certs-client
             mountPath: /certs/client
           resources:

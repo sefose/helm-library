@@ -6,4 +6,5 @@ data:
     settings.json: |
         {
           "terminal.integrated.gpuAcceleration": "canvas",
+          "keyboard.layout": "autodetect",
         }
