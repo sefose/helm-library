@@ -32,34 +32,25 @@ spec:
       runtimeClassName: {{ .Values.runtimeClassName }}
       {{- end }}
       initContainers:
-        - name: change-coder-data-ownership
-          image: alpine
+        - name: prepare-user-folder-pvc
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          securityContext:
+            runAsUser: 0
           command: ["/bin/sh","-c"]
-          args: ["mkdir -p /code-server/data/config && cp /config.yaml /code-server/data/config/config.yaml && mkdir -p /code-server/data/User && cp /settings.json /code-server/data/User/ && chown 1000:1000 /code-server/data"]
+          args: ["cp -r /home/coder/. /coder-home/ && chown 1000:1000  /coder-home"]
           volumeMounts:
           - name: pvc
-            mountPath: "/code-server"
-          - name: config-volume
-            mountPath: /config.yaml
-            subPath: config.yaml
-          - name: settings-volume
-            mountPath: /settings.json
-            subPath: settings.json
+            mountPath: "/coder-home"
+        - name: install-extensions
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          securityContext:
+          command: ["/bin/sh","-c"]
+          args: ["code-server {{ include "fullstack-container.addExtensions" .  }}"]
+          volumeMounts:
+          - name: pvc
+            mountPath: "/coder-home"
       containers:
         - name: {{ .Chart.Name }}
-          command: ["/bin/sh","-c"]
-          args: [
-              "{{- if .Values.extensions }}
-              code-server 
-              {{ include "fullstack-container.addExtensions" .  }} 
-              --user-data-dir /code-server/data 
-              --config /code-server/data/config/config.yaml  
-              /code-server/data && 
-              {{- end }}
-              code-server --user-data-dir /code-server/data
-              --config /code-server/data/config/config.yaml  
-              /code-server/data" 
-              ]
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -81,7 +72,13 @@ spec:
           #     port: http
           volumeMounts:
           - name: pvc
-            mountPath: "/code-server"
+            mountPath: "/home/coder"
+          - name: config-volume
+            mountPath: /home/coder/.config/code-server/config.yaml
+            subPath: config.yaml
+          - name: settings-volume
+            mountPath: /home/coder/.local/share/code-server/User/settings.json
+            subPath: settings.json
           - name: certs-client
             mountPath: /certs/client
           resources:
@@ -98,7 +95,7 @@ spec:
           - name: docker-graph-storage
             mountPath: /var/lib/docker
           - name: pvc
-            mountPath: "/code-server"
+            mountPath: "/home/coder"
       volumes:
         - name: certs-ca
           emptyDir: {}
