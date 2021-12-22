@@ -62,14 +62,14 @@ spec:
           env:
             - name: DOCKER_HOST 
               value: tcp://localhost:2375 
-          # livenessProbe:
-          #   httpGet:
-          #     path: /healthz
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /healthz
-          #     port: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 1080
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 1080
           volumeMounts:
           - name: pvc
             mountPath: "/home/coder"
